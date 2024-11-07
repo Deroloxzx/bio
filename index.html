@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noxis</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    /* Основной контент */
+    .container {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      z-index: 1;
+    }
+
+    /* Контейнер для списка игр */
+    .game-list {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      z-index: 2;
+      overflow-y: auto;
+    }
+
+    /* Секция для каждой игры */
+    .game-item {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+      color: white;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Название игры */
+    .game-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    /* Количество часов */
+    .game-hours {
+      font-size: 16px;
+      margin-top: 5px;
+      color: #d1d1d1;
+    }
+
+    /* Стиль для гамбургер-меню */
+    .menu-icon {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .menu-icon div {
+      width: 30px;
+      height: 4px;
+      background-color: white;
+      margin: 6px 0;
+      transition: 0.3s;
+    }
+
+    /* Анимация гамбургер-меню при активации */
+    .menu-icon.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .menu-icon.active div:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-icon.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 4px solid white;
+      margin-bottom: 20px;
+    }
+
+    .nickname {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .description {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .button {
+      display: block;
+      background-color: #00aaff;
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      width: 80%;
+      max-width: 200px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #008ecc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Гамбургер-меню -->
+  <div class="menu-icon" onclick="toggleGameList()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Основной контейнер -->
+  <div class="container" id="mainContainer">
+    <img src="avatar.jpg" alt="Аватар" class="avatar">
+    <div class="nickname">Noxis</div>
+    <div class="description">Играю в игры и иногда занимаю сайтами:></div>
+    <a href="https://t.me/i_am_funx" class="button">Мой Telegram</a>
+    <a href="https://telegra.ph/Bio-11-02-5" class="button">Моя биография</a>
+  </div>
+
+  <!-- Контейнер для списка игр -->
+  <div class="game-list" id="gameList">
+    <!-- Rust -->
+    <div class="game-item" style="background-image: url('rust-background.jpg');">
+      <div>
+        <div class="game-title">Rust</div>
+        <div class="game-hours">Часов наиграно: 402</div>
+      </div>
+    </div>
+
+    <!-- Minecraft -->
+    <div class="game-item" style="background-image: url('minecraft-background.jpg');">
+      <div>
+        <div class="game-title">Minecraft</div>
+        <div class="game-hours">Часов наиграно: 5000+</div>
+      </div>
+    </div>
+
+    <!-- Roblox -->
+    <div class="game-item" style="background-image: url('roblox-background.jpg');">
+      <div>
+        <div class="game-title">Roblox</div>
+        <div class="game-hours">Часов наиграно: 3000+</div>
+      </div>
+    </div>
+  </div>
+
+   
+
+  <script>
+    // Функция для показа и скрытия списка игр
+    function toggleGameList() {
+      const mainContainer = document.getElementById('mainContainer');
+      const gameList = document.getElementById('gameList');
+      const menuIcon = document.querySelector('.menu-icon');
+
+      if (gameList.style.display === 'flex') {
+        gameList.style.display = 'none';
+        mainContainer.style.display = 'flex';
+      } else {
+        gameList.style.display = 'flex';
+        mainContainer.style.display = 'none';
+      }
+
+      menuIcon.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
